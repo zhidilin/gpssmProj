@@ -1,1 +1,1 @@
-# output dependent GPSSM
+# Output Dependent GPSSM
