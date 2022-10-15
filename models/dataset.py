@@ -11,7 +11,6 @@ from .utils import get_data_split, generate_batches, generate_trajectory, Normal
 
 __all__ = ['Actuator', 'BallBeam', 'Drive', 'Dryer',   'GasFurnace',  'KinkFunction', 'CarTracking', 'CarTracking_full',
            'Dataset', 'get_dataset']
-# DATA_DIR = '/home/home1/student/zhidi/python/pycharm/GPSSM-zlin/new_TGPSSM/data/'
 DATA_DIR = '../data/'
 
 
