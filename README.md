@@ -1,1 +1,1 @@
-# This is an implementation of the Output-Dependent GPSSM
+# Implementation of the Output-Dependent GPSSM
