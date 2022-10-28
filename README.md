@@ -1,1 +1,1 @@
-# Implementation of the Output-Dependent Gaussian process state space model
+# Implementation of the Output-Dependent GPSSM
