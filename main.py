@@ -1,5 +1,5 @@
 '''
-# this file is to train the non-mean-field GPSSM on the 5 system identification data sets
+# This file is to train the non-mean-field GPSSM on the 5 system identification data sets
 # setup:
 1. whiten the data
 2. state_dim = 4, input_dim = 1, output_dim = 1, N_ips = 20, batch_size = full batch, seq_len = 50
@@ -45,16 +45,19 @@ ARD = False
 model_initialization = False
 ETGP = True
 SAL_flow = False
-Affine_flow = (not SAL_flow)
-nn_par = True            # Only in Linear Flow currently. If true, using NN to learn parameters in the linear flow
-feedTime = nn_par        # Input-dependent non-stationary EGPSSM. TODO: Auto-Regularization needed
+TANH_flow = False
+Affine_flow = (not SAL_flow) and (not TANH_flow)
+nn_par = False            # Only in Linear Flow currently. If true, using NN to learn parameters in the linear flow
+feedTime = nn_par         # Input-dependent non-stationary EGPSSM. TODO: Auto-Regularization needed
 if nn_par and feedTime:
     input_dim = input_dim + 1
-    lr = 0.05
 
 
 """-------------------- dataset settings --------------------"""
-data_name_all = [ 'actuator', 'ballbeam',  'dryer',  'gasfurnace',  'drive' ]
+# data_name_all = [ 'actuator', 'ballbeam',  'drive',  'dryer',  'gasfurnace' ]
+# data_name_all = [ 'actuator', 'ballbeam']
+data_name_all = [ 'drive',  'dryer',  'gasfurnace' ]
+# data_name_all = [ 'actuator' ]
 
 for ii in range(len(data_name_all)):
 
@@ -74,14 +77,19 @@ for ii in range(len(data_name_all)):
 
     # results dictionary
     if ETGP:
+        ARD = True
         if SAL_flow:
+            num_epoch = 400
             result_dir = f'./results/{data_name}/EGPSSM_batchSize{batch_size}_seq{seq_len}_SALFlow/'
+        elif TANH_flow:
+            num_epoch = 400
+            result_dir = f'./results/{data_name}/EGPSSM_batchSize{batch_size}_seq{seq_len}_TanhFlow/'
         else:
             if not nn_par:
+                num_epoch = 400
                 result_dir = f'./results/{data_name}/EGPSSM_batchSize{batch_size}_seq{seq_len}_Linear/'
             else:
                 result_dir = f'./results/{data_name}/EGPSSM_batchSize{batch_size}_seq{seq_len}_nonStationary_Linear/'
-        result_dir_ini = f'./results/{data_name}/LMC_{LMC}_batchSize{batch_size}_seq{seq_len}/'
     else:
         if LMC:
             result_dir = f'./results/{data_name}/LMC_{LMC}_batchSize{batch_size}_seq{seq_len}_nGPs_{num_latent_gp}/'
@@ -98,21 +106,23 @@ for ii in range(len(data_name_all)):
         print("!" * 30)
         print(f"Experiment repeated: {jj}")
         print("!" * 30)
-        # uniformly generate inducing points from [-2, 2]
+
 
         # Model Initialization
         if ETGP:
+            # uniformly generate inducing points from [-2, 2]
             inducing_points = 4 * torch.rand(number_ips, state_dim + input_dim) - 2
             model = EGPSSM(state_dim=state_dim, output_dim=output_dim, seq_len=seq_len, inducing_points=inducing_points,
-                           input_dim=input_dim, process_noise_sd=process_noise_sd,
-                           N_MC=number_particles, ARD=ARD, SAL_flow=SAL_flow, linear_flow_nn_par=nn_par).to(device)
+                           input_dim=input_dim, process_noise_sd=process_noise_sd, N_MC=number_particles,
+                           ARD=ARD, SAL_flow=SAL_flow, linear_flow_nn_par=nn_par, Tanh_flow=TANH_flow).to(device)
 
-            if model_initialization:
-                log_dir_inialization = result_dir_ini + f"{data_name}_epoch699_Repeat{jj}.pt"
-                print(log_dir_inialization)
-                PRSSM_ = model.initialization(log_dir_ini=log_dir_inialization)
-                model.load_state_dict(PRSSM_, strict=False)
-                model.GMatrix.requires_grad_(False)
+
+            params_dict = [{'params': model.likelihood.parameters(), 'lr': lr},
+                           {'params': model.emission_likelihood.parameters(), 'lr': lr},
+                           {'params': model.transition.parameters(), 'lr': lr},
+                           {'params': model.RecNet.parameters(), 'lr': lr},
+                           {'params': model.GMatrix.parameters(), 'lr': 0.5*lr},]
+            optimizer = torch.optim.Adam(params_dict, weight_decay=1e-4)
 
         else:
             if LMC:
@@ -124,7 +134,7 @@ for ii in range(len(data_name_all)):
                             input_dim=input_dim, process_noise_sd=process_noise_sd,
                             N_MC=number_particles, ARD=ARD, LMC=LMC).to(device)
 
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
+            optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-4)
 
 
         log_dir_ini = result_dir + f"{data_name}_epoch799_Repeat{jj}.pt"
@@ -179,8 +189,7 @@ for ii in range(len(data_name_all)):
                         y_pred = y_pred.detach().cpu()  # shape: seq_len x N_MC x batch_size x output_dim
 
                 # post-processing of predictions
-                data_sd = torch.tensor(test_loader.dataset.output_normalizer.sd,
-                                       dtype=dtype)  # np array, shape (output_dim, )
+                data_sd = torch.tensor(test_loader.dataset.output_normalizer.sd, dtype=dtype)  # np array, shape (output_dim, )
                 data_mean = torch.tensor(test_loader.dataset.output_normalizer.mean, dtype=dtype)
                 y_pred_original = y_pred * data_sd + data_mean  # shape: seq_len x N_MC x batch_size x output_dim
                 y_pred_mean = y_pred_original.mean(dim=1)  # shape: seq_len x batch_size x output_dim
