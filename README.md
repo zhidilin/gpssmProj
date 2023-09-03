@@ -1,4 +1,4 @@
-# Output-dependent Gaussian Process State-Space Models
+# Output-Dependent Gaussian Process State-Space Models
 
 This repository contains:
 * Implementation of the Efficient Multidimensional GPSSMs
