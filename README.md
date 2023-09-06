@@ -1,7 +1,7 @@
 # Output-Dependent Gaussian Process State-Space Models
 
 This repository contains:
-* Implementation of the Efficient Multidimensional GPSSMs
+* Implementation of the [Efficient Multidimensional GPSSMs](https://arxiv.org/pdf/2309.01074.pdf)
 * Implementation of the [Output-Dependent GPSSMs](https://ieeexplore.ieee.org/document/10095784?signout=success) <br>
 * It also includes a benchmark GPSSM reimplementation, namely [PRSSM](https://arxiv.org/abs/1801.10395) <be>
 
