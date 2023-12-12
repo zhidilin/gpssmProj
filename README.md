@@ -1,7 +1,8 @@
 # Output-Dependent Gaussian Process State-Space Models
 
 This repository contains:
-* Implementation of the [Efficient Multidimensional GPSSMs](https://arxiv.org/pdf/2309.01074.pdf)
+* Implementation of the [EnVI for GPSSMs](https://arxiv.org/pdf/2312.05910.pdf) <br>
+* Implementation of the [Efficient Multidimensional GPSSMs](https://arxiv.org/pdf/2309.01074.pdf) <br>
 * Implementation of the [Output-Dependent GPSSMs](https://ieeexplore.ieee.org/document/10095784?signout=success) <br>
 * It also includes a benchmark GPSSM reimplementation, namely [PRSSM](https://arxiv.org/abs/1801.10395) <be>
 
@@ -22,5 +23,12 @@ This repository contains:
   author={Lin, Zhidi and Maro\~{n}as, Juan and Li, Ying and Yin, Feng and Theodoridis, Sergios},
   booktitle={submitted to ICASSP 2024},
   year={2024},
+}
+
+@article{lin2023EnVI,
+  title={Ensemble Kalman Filtering-Aided Variational Inference for Gaussian Process State-Space Models},
+  author={Lin, Zhidi and Sun, Yiyong and Yin, Feng and Thiery, Alexandre},
+  journal={arXiv preprint arXiv:2312.05910},
+  year={2023}
 }
 ```
