@@ -21,12 +21,14 @@ This repository contains:
 @inproceedings{lin2024towards,
   title={Towards Efficient Modeling and Inference in Multi-Dimensional Gaussian Process State-Space Models},
   author={Lin, Zhidi and Maro\~{n}as, Juan and Li, Ying and Yin, Feng and Theodoridis, Sergios},
-  booktitle={submitted to ICASSP 2024},
+  booktitle={ICASSP 2024-2024 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages={12881--12885},
   year={2024},
+  organization={IEEE}
 }
 
 @article{lin2023EnVI,
-  title={Ensemble Kalman Filtering-Aided Variational Inference for Gaussian Process State-Space Models},
+  title={Ensemble Kalman Filtering Meets Gaussian Process SSM for Non-Mean-Field and Online Inference},
   author={Lin, Zhidi and Sun, Yiyong and Yin, Feng and Thiery, Alexandre},
   journal={arXiv preprint arXiv:2312.05910},
   year={2023}
