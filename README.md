@@ -33,4 +33,11 @@ This repository contains:
   journal={IEEE Transactions on Signal Processing},
   year={2024}
 }
+
+@article{lin2025efficient,
+  title={Efficient Transformed Gaussian Process State-Space Models for Non-Stationary High-Dimensional Dynamical Systems},
+  author={Lin, Zhidi and Li, Ying and Yin, Feng and Maro{\~n}as, Juan and Thi{\'e}ry, Alexandre H},
+  journal={arXiv preprint arXiv:2503.18309},
+  year={2025}
+}
 ```
