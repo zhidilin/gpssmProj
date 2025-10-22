@@ -1,10 +1,10 @@
-# Output-Dependent Gaussian Process State-Space Models
+# Repo of Gaussian Process State-Space Models
 
 This repository contains:
 * Implementation of the [EnVI for GPSSMs](https://arxiv.org/pdf/2312.05910.pdf) <br>
 * Implementation of the [Efficient Multidimensional GPSSMs](https://arxiv.org/pdf/2309.01074.pdf) <br>
 * Implementation of the [Output-Dependent GPSSMs](https://ieeexplore.ieee.org/document/10095784?signout=success) <br>
-* It also includes a benchmark GPSSM reimplementation, namely [PRSSM](https://arxiv.org/abs/1801.10395) <be>
+* It also includes a benchmark GPSSM reimplementation, namely [PRSSM](https://arxiv.org/abs/1801.10395) and [VCDT](https://proceedings.mlr.press/v97/ialongo19a/ialongo19a.pdf) <be>
 
 
 ## Citation
