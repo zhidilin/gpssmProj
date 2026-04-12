@@ -1,5 +1,7 @@
 # Gaussian Process State-Space Models (GPSSMs)
 
+**Language:** English | [中文](README.zh-CN.md)
+
 This repository collects research implementations of several GPSSM families, including EnVI, output-dependent GPSSMs, and transformed/high-dimensional GPSSMs.
 
 ## Included Methods
